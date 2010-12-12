@@ -7,7 +7,7 @@ tell application "System Events"
 end tell
 
 tell application "Finder"
-	set notifyScriptFile to POSIX file "/Users/tim/Documents/Software/Wallpaper Manager/src/main/applescript/growlNotifyFunction.scpt"
+	set notifyScriptFile to POSIX file "/Users/tim/Library/Scripts/growlNotifyFunction.scpt"
 end tell
 set notifyScript to load script notifyScriptFile
 tell notifyScript to sendGrowlNotification("Reloaded Wallpaper", currentWallpaperName)

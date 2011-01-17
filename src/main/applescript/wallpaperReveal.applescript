@@ -1,16 +1,13 @@
-tell application "System Events"
-	tell current desktop
-		set currentWallpaper to picture as alias
-		set currentWallpaperName to (get name of currentWallpaper)
-		tell application "Finder"
-			reveal currentWallpaper
-			activate
-		end tell
-	end tell
-end tell
+tell application "Finder" to Â
+	set wallpaperHandlers to (load script file "wallpaperFunctions.scpt" of Â
+		folder "Scripts" of folder "Library" of home as alias)
 
 tell application "Finder"
-	set notifyScriptFile to POSIX file "/Users/tim/Library/Scripts/growlNotifyFunction.scpt"
+	tell wallpaperHandlers to Â
+		set currentWallpaper to getCurrentWallpaper()
+	reveal currentWallpaper
+	activate
 end tell
-set notifyScript to load script notifyScriptFile
-tell notifyScript to sendGrowlNotification("Revealed Wallpaper", currentWallpaperName)
+
+tell wallpaperHandlers to Â
+	sendGrowlNotification("Revealed Wallpaper")

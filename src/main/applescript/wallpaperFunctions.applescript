@@ -1,4 +1,32 @@
-on sendGrowlNotification(titleAndDescription, imageName)
+on getCurrentWallpaper()
+	tell application "System Events" to Â
+		set currentWallpaper to picture of current desktop as alias
+	return currentWallpaper
+end getCurrentWallpaper
+
+on getCurrentWallpaperName()
+	set currentWallpaper to getCurrentWallpaper()
+	tell application "Finder" to Â
+		set currentWallpaperName to name of currentWallpaper
+	return currentWallpaperName
+end getCurrentWallpaperName
+
+on getRandomWallpaper()
+	set currentWallpaper to getCurrentWallpaper()
+	tell application "Finder" to Â
+		set randomWallpaper to some file of folder of currentWallpaper as alias
+	return randomWallpaper
+end getRandomWallpaper
+
+on setWallpaper(wallpaperAlias)
+	tell application "System Events" to set picture of current desktop to wallpaperAlias
+end setWallpaper
+
+on sendGrowlNotification(titleAndDescription)
+	sendGrowlNotificationCustomName(titleAndDescription, getCurrentWallpaperName())
+end sendGrowlNotification
+
+on sendGrowlNotificationCustomName(titleAndDescription, imageName)
 	tell application "GrowlHelperApp"
 		-- Make a list of all the notification types 
 		-- that this script will ever send:
@@ -25,4 +53,4 @@ on sendGrowlNotification(titleAndDescription, imageName)
 			imageName application name Â
 			"Super Wallpaper Manager!" image from location "file:///Users/tim/Documents/Software/Wallpaper Manager/src/main/assets/wallpaperAdvanceIcon.png"
 	end tell
-end sendGrowlNotification
+end sendGrowlNotificationCustomName

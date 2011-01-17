@@ -1,23 +1,8 @@
-tell application "System Events"
-	tell current desktop
-		set wallpaperFolder to pictures folder as alias
-	end tell
-end tell
---log wallpaperFolder
+tell application "Finder" to Â
+	set wallpaperHandlers to (load script file "wallpaperFunctions.scpt" of Â
+			folder "Scripts" of folder "Library" of home as alias)
 
-tell application "Finder"
-	set randomImage to some file of wallpaperFolder as alias
-	set randomImageName to (get name of randomImage)
+tell wallpaperHandlers
+	setWallpaper(getRandomWallpaper())
+	sendGrowlNotification("Advanced Wallpaper")
 end tell
---log randomImage
---log randomImageName
-
-tell application "System Events"
-	set picture of current desktop to randomImage
-end tell
-
-tell application "Finder"
-	set notifyScriptFile to POSIX file "/Users/tim/Library/Scripts/growlNotifyFunction.scpt"
-end tell
-set notifyScript to load script notifyScriptFile
-tell notifyScript to sendGrowlNotification("Advanced Wallpaper", randomImageName)

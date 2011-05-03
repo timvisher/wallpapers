@@ -5,12 +5,15 @@ tell application "Finder" to Â
 tell wallpaperHandlers
 	set priorWallpaper to getCurrentWallpaper()
 	set priorWallpaperName to getCurrentWallpaperName()
+	set parked to getParkedDirectory()
 	setWallpaper(getRandomWallpaper())
 end tell
 
-tell application "Finder" to delete priorWallpaper
+tell application "Finder"
+	move priorWallpaper to parked
+end tell
 
 tell wallpaperHandlers
-	sendGrowlNotificationCustomName("Trashed Wallpaper", priorWallpaperName)
+	sendGrowlNotificationCustomName("Parked Wallpaper", priorWallpaperName)
 	sendGrowlNotification("Advanced Wallpaper")
 end tell

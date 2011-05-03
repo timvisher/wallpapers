@@ -1,3 +1,15 @@
+on getParkedDirectory()
+	set library to getWallpaperLibrary()
+	tell application "Finder" to set parked to get folder "Parked" of library as alias
+	return parked
+end getParkedDirectory
+
+on getWallpaperLibrary()
+	set currentWallpaper to getCurrentWallpaper()
+	tell application "Finder" to set library to get parent of folder of currentWallpaper as alias
+	return library
+end getWallpaperLibrary
+
 on getCurrentWallpaper()
 	tell application "System Events" to Â
 		set currentWallpaper to picture of current desktop as alias
@@ -31,7 +43,7 @@ on sendGrowlNotificationCustomName(titleAndDescription, imageName)
 		-- Make a list of all the notification types 
 		-- that this script will ever send:
 		set the allNotificationsList to Â
-			{"Advanced Wallpaper", "Trashed Wallpaper", "Opened Wallpaper For Editing", "Revealed Wallpaper", "Reloaded Wallpaper"}
+			{"Advanced Wallpaper", "Trashed Wallpaper", "Opened Wallpaper For Editing", "Revealed Wallpaper", "Reloaded Wallpaper", "Parked Wallpaper"}
 		
 		-- Make a list of the notifications 
 		-- that will be enabled by default.      

@@ -6,7 +6,7 @@ do
     osacompile -o $new $f
 done
 
-rm ~/Library/Scripts/wallpaper*
+trash ~/Library/Scripts/wallpaper*
 
 mv *.scpt ~/Library/Scripts/
 

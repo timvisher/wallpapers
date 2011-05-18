@@ -1,14 +1,11 @@
+on getWallpaperLibrary()
+	tell application "Finder" to return folder "Wallpaper" of folder "Pictures" of home as alias
+end getWallpaperLibrary
+
 on getParkedDirectory()
-	set library to getWallpaperLibrary()
 	tell application "Finder" to set parked to get folder "Parked" of library as alias
 	return parked
 end getParkedDirectory
-
-on getWallpaperLibrary()
-	set currentWallpaper to getCurrentWallpaper()
-	tell application "Finder" to set library to get parent of folder of currentWallpaper as alias
-	return library
-end getWallpaperLibrary
 
 on getCurrentWallpaper()
 	tell application "System Events" to Â
@@ -23,12 +20,41 @@ on getCurrentWallpaperName()
 	return currentWallpaperName
 end getCurrentWallpaperName
 
+on getResolutionDirectory()
+	set library to getWallpaperLibrary()
+	set currentResolution to getScreenResolution()
+	set directoryName to item 1 of currentResolution & "x" & item 2 of currentResolution as string
+	tell application "Finder" to return folder directoryName of library as alias
+end getResolutionDirectory
+
+on getPatternDirectory()
+	set library to getWallpaperLibrary()
+	tell application "Finder" to return folder "Patterns" of library as alias
+end getPatternDirectory
+
 on getRandomWallpaper()
 	set currentWallpaper to getCurrentWallpaper()
+	set resolutionDirectory to getResolutionDirectory()
+	set patternDirectory to getPatternDirectory()
+	set patternInstead to 3 is equal to (random number 3)
 	tell application "Finder" to Â
-		set randomWallpaper to some file of folder of currentWallpaper as alias
+		if patternInstead then
+			set randomWallpaper to some file of patternDirectory as alias
+		else
+			set randomWallpaper to some file of resolutionDirectory as alias
+		end if
 	return randomWallpaper
 end getRandomWallpaper
+
+on getScreenResolution()
+	tell application "ASSAccess"
+		tell application "Automator Runner"
+			set screensArray to call method "screens" of class "NSScreen"
+			set dims to call method "frame" of (item 1 of screensArray)
+			return {(item 3 of dims as integer), (item 4 of dims as integer)}
+		end tell
+	end tell
+end getScreenResolution
 
 on setWallpaper(wallpaperAlias)
 	tell application "System Events" to set picture of current desktop to wallpaperAlias

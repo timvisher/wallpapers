@@ -40,8 +40,14 @@ on getRandomWallpaper()
 	tell application "Finder" to Â
 		if patternInstead then
 			set randomWallpaper to some file of patternDirectory as alias
+			repeat while 0 is less than (offset of ".thumb" in randomWallpaper as string)
+				set randomWallpaper to some file of resolutionDirectory as alias
+			end repeat
 		else
 			set randomWallpaper to some file of resolutionDirectory as alias
+			repeat while 0 is less than (offset of ".thumb" in randomWallpaper as string)
+				set randomWallpaper to some file of resolutionDirectory as alias
+			end repeat
 		end if
 	return randomWallpaper
 end getRandomWallpaper
@@ -89,6 +95,6 @@ on sendGrowlNotificationCustomName(titleAndDescription, imageName)
 			titleAndDescription title Â
 			titleAndDescription description Â
 			imageName application name Â
-			"Super Wallpaper Manager!" image from location "file:///Users/tim/Documents/Software/Wallpaper Manager/src/main/assets/wallpaperAdvanceIcon.png"
+			"Super Wallpaper Manager!" image from location "file:///Users/tim/Documents/Software/Wallpaper Manager Scripts/src/main/assets/wallpaperAdvanceIcon.png"
 	end tell
 end sendGrowlNotificationCustomName

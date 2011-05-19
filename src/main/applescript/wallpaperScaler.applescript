@@ -7,6 +7,7 @@ tell application "Image Events"
 		set theWallpaper to open (currentWallpaper as alias)
 		tell theWallpaper
 			set theWallpaperDimensions to dimensions of theWallpaper
+			set currentAspects to {}
 			if my aspectsEqual(16 / 10, theWallpaperDimensions) then set currentAspects to w1610 of myDimensions
 			if my aspectsEqual(16 / 9, theWallpaperDimensions) then set currentAspects to w169 of myDimensions
 			if my aspectsEqual(4 / 3, theWallpaperDimensions) then set currentAspects to f43 of myDimensions

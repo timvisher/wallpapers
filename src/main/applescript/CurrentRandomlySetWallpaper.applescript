@@ -1,13 +1,25 @@
-set a to path to preferences folder from user domain as string
-set thefile to a & "com.apple.desktop.plist"
+set preferencesFolderPath to path to preferences folder from user domain as string
+set desktopSettingsPlist to preferencesFolderPath & "com.apple.desktop.plist"
+set wallpaperPaths to []
 tell application "System Events"
-	tell current desktop
-		log pictures folder as string
-	end tell
-	tell property list file thefile
-		tell contents
-			--set value of property list item "LastName" of property list item "1317017921" of property list item "Background" to "simple_portal_2_wallpaper_Awesome_Portal_2_Wallpapers-s1920x1080-89610.jpg"
-			--set value of property list item "ChangeTime" of property list item "1317017921" of property list item "Background" to 1
+	set desktopIds to id of desktops
+	repeat with desktopId in desktopIds
+		tell property list file desktopSettingsPlist
+			tell contents
+				set desktopSettings to property list item (desktopId as string) of property list item "" of property list item "spaces" of property list item "Background"
+				tell desktopSettings
+					set wallpaperPaths to wallpaperPaths & ((value of property list item "ChangePath") & "/" & (value of property list item "LastName"))
+				end tell
+			end tell
 		end tell
-	end tell
+	end repeat
 end tell
+repeat with wallpaperPath in wallpaperPaths
+	tell application "Finder"
+		-- yes it appears that the following idiocy is necessary… /me sighs
+		set thePath to wallpaperPath as string
+		set theWallpaperPosixFile to POSIX file thePath as string
+		set theWindow to make new Finder window
+		set target of theWindow to theWallpaperPosixFile
+	end tell
+end repeat
